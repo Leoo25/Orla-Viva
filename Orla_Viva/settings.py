@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +46,31 @@ INSTALLED_APPS = [
     'tailwind',
     'theme'
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Orla Viva Admin",
+    "site_header": "Orla Viva",
+    "site_logo": "images/Logo.png",
+    "login_logo": "images/Logo.png",
+    "ui_tweaks": {
+        "navbar_small_text": False,
+        "footer_small_text": False,
+        "body_small_text": False,
+        "brand_small_text": False,
+        "brand_colour": "navbar-dark",
+        "accent": "accent-primary",
+        "navbar": "navbar-dark",
+        "no_navbar_border": False,
+        "sidebar": "sidebar-dark-primary",
+        "sidebar_nav_small_text": False,
+        "sidebar_disable_expand": False,
+        "sidebar_nav_child_indent": False,
+        "sidebar_nav_compact_style": False,
+        "sidebar_nav_legacy_style": False,
+        "sidebar_nav_flat_style": False
+    }
+}
+ADMIN_SITE_HEADER = 'Painel Orla Viva'
 
 TAILWIND_APP_NAME = 'theme'
 NPM_BIN_PATH = r"D:\Gordo\Node\npm.cmd"

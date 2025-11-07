@@ -30,6 +30,14 @@ class Recomendacao(models.Model):
         ('$$$', '$$$ (Caro)'),
     ]
     faixa_preco = models.CharField(max_length=3, choices=FAIXA_PRECO_CHOICES, blank=True, null=True)
+    AVALIACOES_CHOICES = [
+        ('★','★'),
+        ('★★','★★'),
+        ('★★★','★★★'),
+        ('★★★★','★★★★'),
+        ('★★★★★','★★★★★'),
+    ]
+    avaliacao = models.CharField(max_length=5, choices=AVALIACOES_CHOICES, blank = True, null= True)
 
     def __str__(self):
         return self.nome

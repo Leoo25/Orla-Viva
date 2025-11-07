@@ -9,7 +9,7 @@ class RecomendacaoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Informações Principais', {
-            'fields': ('nome', 'descricao', 'telefone','redeSocial_url','categoria','faixa_preco','endereco_texto','imagem')
+            'fields': ('nome', 'descricao', 'telefone','redeSocial_url','categoria','faixa_preco','endereco_texto','avaliacao','imagem')
         }),
         ('Localização (Clique no mapa para definir)', {
             'description': "Use o mapa abaixo para definir a localização. Você pode clicar ou arrastar o marcador.",
@@ -18,6 +18,9 @@ class RecomendacaoAdmin(admin.ModelAdmin):
         }),
     )
     class Media:
+        html = {
+            '\OrlaViva\theme\templates\base.html'
+        }
     
         css = {
             'all': ('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',)

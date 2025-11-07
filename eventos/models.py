@@ -17,6 +17,8 @@ class Evento(models.Model):
     imagem = models.ImageField(upload_to='fotos_eventos/', null=True,blank=True)
     site_url = models.URLField(max_length=200, blank=True, null=True, help_text="Link do site ou rede social")
     categoria = models.ForeignKey(CategoriaEventos, on_delete=models.SET_NULL, null=True)
+    horario = ...
+    local = ...
 
     def __str__(self):
         return self.nome
