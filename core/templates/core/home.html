@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block titulo %}Home{% endblock %}
+
+
+{% block conteudo %}
+<h1 class="text-3xl font-semibold mb-6">Mapa de Eventos</h1>
+    <div class="
+    w-full max-w-4xl mx-auto h-[400px] md:h-[600px] rounded-lg 
+    overflow-hidden shadow-lg">
+        {{ mapa|safe }}
+    </div>
+    <div class="container mx-auto px-4 py-8">
+  <h2 class="text-3xl font-semibold mb-6">Recomendações</h2>
+  
+  <div class="flex overflow-x-auto space-x-6 pb-4">
+
+    {% for categoria in categorias %}
+    <a href="#" class="group relative block flex-shrink-0 w-64 rounded-xl overflow-hidden shadow-lg">
+      {% if categoria.imagem %}
+      <img src="{{ categoria.imagem.url }}" alt="{{ categoria.nome }}" 
+           class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+      {% else %}
+      <div class="w-full h-48 bg-gray-300"></div>
+      {% endif %}
+      <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+        <div class="flex justify-between items-center">
+          <h3 class="text-white font-semibold text-lg">{{ categoria.nome }}</h3>
+          <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center text-white 
+                      transition-all duration-300 group-hover:bg-white/50 group-hover:scale-110">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3.375"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
