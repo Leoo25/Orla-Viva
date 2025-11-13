@@ -6,11 +6,12 @@ from .models import Evento, CategoriaEventos
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
     
-    list_display = ('nome', 'data', 'latitude', 'longitude','site_url')
+    list_display = ('nome', 'data', 'latitude', 'longitude','site_url','evento_destaque',)
+    list_editable = ('evento_destaque',)
     
     fieldsets = (
         ('Informações Principais', {
-            'fields': ('nome', 'descricao', 'data', 'imagem','site_url','categoria')
+            'fields': ('nome', 'descricao', 'data', 'imagem','site_url','categoria','evento_destaque')
         }),
         ('Localização (Clique no mapa para definir)', {
             'description': "Use o mapa abaixo para definir a localização. Você pode clicar ou arrastar o marcador.",

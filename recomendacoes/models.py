@@ -29,7 +29,7 @@ class Recomendacao(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     endereco_texto = models.CharField(max_length=255, blank=True, help_text="Ex: Av. Castelo Branco, 1234")
     telefone = models.CharField(max_length=20, blank=True)
-    redeSocial_url = models.URLField(max_length=200, blank=True, help_text="Link das Redes sociais")
+    redeSocial_url = models.URLField(max_length=200, blank=True, help_text="Link da pagina do ifood ou rede social")
     FAIXA_PRECO_CHOICES = [
         ('$', '$ (Barato)'),
         ('$$', '$$ (Médio)'),
@@ -44,6 +44,7 @@ class Recomendacao(models.Model):
         ('★★★★★','★★★★★'),
     ]
     avaliacao = models.CharField(max_length=5, choices=AVALIACOES_CHOICES, blank = True, null= True)
+    
 
     def __str__(self):
         return self.nome

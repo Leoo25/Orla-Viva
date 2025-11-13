@@ -9,7 +9,7 @@ class RecomendacaoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Informações Principais', {
-            'fields': ('nome', 'descricao', 'telefone','redeSocial_url','categoria','faixa_preco','endereco_texto','avaliacao','imagem')
+            'fields': ('nome', 'descricao', 'telefone','redeSocial_url','categoria','faixa_preco','endereco_texto','avaliacao','imagem',)
         }),
         ('Localização (Clique no mapa para definir)', {
             'description': "Use o mapa abaixo para definir a localização. Você pode clicar ou arrastar o marcador.",

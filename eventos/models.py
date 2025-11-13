@@ -18,10 +18,19 @@ class Evento(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     data = models.DateField()
     imagem = models.ImageField(upload_to='fotos_eventos/', null=True,blank=True)
-    site_url = models.URLField(max_length=200, blank=True, null=True, help_text="Link do site ou rede social")
+    site_url = models.URLField(max_length=200, blank=True, null=True, help_text="Link do site ou rede social",verbose_name="URL do evento")
     categoria = models.ForeignKey(CategoriaEventos, on_delete=models.SET_NULL, null=True)
     horario = ...
     local = ...
+    OPCOES_DESTAQUE = [
+        (True, 'Sim'),
+        (False, 'Não'),
+    ]
+    evento_destaque = models.BooleanField(
+        choices=OPCOES_DESTAQUE, 
+        default=False, 
+        verbose_name="Destaque"
+    )
 
     def __str__(self):
         return self.nome

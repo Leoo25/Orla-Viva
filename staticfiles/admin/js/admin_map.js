@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return; 
     }
     
-    const fieldset = latInput.closest('fieldset');
     const cepContainer = document.createElement('div');
     cepContainer.style.marginBottom = '10px';
     cepContainer.innerHTML = `
@@ -16,13 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
         <button type="button" id="cep_search_btn" class="button">Buscar</button>
         <span id="cep_status" style="margin-left: 10px; font-size: 0.9em; color: #666;"></span>
     `;
-    fieldset.prepend(cepContainer);
+    
     const mapDiv = document.createElement('div');
     mapDiv.id = 'admin-map-widget';
     mapDiv.style.height = '400px';
     mapDiv.style.marginBottom = '15px';
     
-    cepContainer.after(mapDiv); 
+    const jazzminFormGroup = latInput.closest('.form-group');
+    const standardFieldset = latInput.closest('fieldset');
+
+    if (jazzminFormGroup) {
+        jazzminFormGroup.parentNode.insertBefore(mapDiv, jazzminFormGroup);
+        jazzminFormGroup.parentNode.insertBefore(cepContainer, mapDiv);
+    } else if (standardFieldset) {
+        standardFieldset.prepend(mapDiv);
+        standardFieldset.prepend(cepContainer);
+    } else {
+        return;
+    }
+
     const praiaGrandeLat = -24.0058;
     const praiaGrandeLon = -46.4028;
 
@@ -39,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const marker = L.marker([startLat, startLon], {
         draggable: true 
     }).addTo(map);
+
     function updateInputs(latlng) {
         latInput.value = latlng.lat.toFixed(6);
         lonInput.value = latlng.lng.toFixed(6);
@@ -57,6 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateInputs(marker.getLatLng());
     }
     
+    const tabLink = document.querySelector('a[href="#fieldset-1"]'); 
+    if (tabLink) {
+        tabLink.addEventListener('shown.bs.tab', function() {
+            map.invalidateSize();
+        });
+    }
+
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 50);
+
     document.getElementById('cep_search_btn').addEventListener('click', searchByCep);
 
     async function searchByCep() {
@@ -83,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusEl.style.color = 'red';
                 return;
             }
+            
             let addressParts = [];
             if (viaCepData.logradouro) addressParts.push(viaCepData.logradouro);
             if (viaCepData.bairro) addressParts.push(viaCepData.bairro);
@@ -90,14 +114,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (viaCepData.uf) addressParts.push(viaCepData.uf);
             addressParts.push('Brazil'); 
             const addressQuery = addressParts.join(', ');
+
             statusEl.textContent = `Buscando coordenadas para: ${addressQuery}...`;
+            
             const nominatimResponse = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(addressQuery)}&format=json&addressdetails=0&limit=1`);
             if (!nominatimResponse.ok) throw new Error('Falha na rede ao consultar Nominatim.');
+            
             const nominatimData = await nominatimResponse.json();
+            
             if (nominatimData && nominatimData.length > 0 && nominatimData[0].lat && nominatimData[0].lon) {
                 const result = nominatimData[0];
                 const lat = parseFloat(result.lat);
                 const lon = parseFloat(result.lon);
+                
                 map.setView([lat, lon], 17);
                 marker.setLatLng([lat, lon]);
                 updateInputs({ lat: lat, lng: lon });
