@@ -3,7 +3,7 @@ import folium
 from eventos.models import Evento
 from recomendacoes.models import CategoriaRecomendacao
 def home(request):
-    m = folium.Map(location=[-24.0058, -46.4028], zoom_start=12) 
+    m = folium.Map(location=[-24.009197, -46.421477], zoom_start=14) 
     eventos_com_local = Evento.objects.select_related('categoria').filter(latitude__isnull=False)
     
     for evento in eventos_com_local:

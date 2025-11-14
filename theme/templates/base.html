@@ -15,15 +15,25 @@
              <div class="flex items-center space-x-2">
        <a href="{%url 'home'%}"> <img src="{% static 'images/Logo.png' %}" alt="Logo" class="w-28 h-auto rounded-xl"></a>
       </div>
-      <nav class="hidden md:flex space-x-6">
-        <a href="{% url 'home' %}" class="capitalize text-gray-700 hover:text-blue-600 transform hover:scale-105 transition duration-200">Home</a>
-        <a href="{% url 'recomendacoes' %}" class="capitalize text-gray-700 hover:text-blue-600 transform hover:scale-105 transition duration-200">Recomendações</a>
-        <a href="{% url 'mapa_eventos' %}" class="capitalize text-gray-700 hover:text-blue-600 transform hover:scale-105 transition duration-200">Eventos</a>
-      </nav>
+     <nav class="hidden md:flex space-x-6 items-center">
+    <a href="{% url 'home' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Home</a>
+    <a href="{% url 'recomendacoes' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Recomendações</a>
+    <a href="{% url 'mapa_eventos' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Eventos</a>
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'admin:index' %}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition">Painel Admin</a>
+    {% endif %}
+    </nav>
     </header>
 {% block conteudo %}
 {% endblock %}
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('keydown', function(admin) {
+        if (admin.shiftKey && (admin.key === 'A' || admin.key === 'a')) {
+            window.location.href = "/admin/";
+        }
+    });
+</script>
 {%block scripts%}{%endblock%}
 </body>
 </html>

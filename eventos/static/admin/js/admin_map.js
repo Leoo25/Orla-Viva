@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cepContainer.innerHTML = `
         <label for="cep_input" style="font-weight: bold; margin-right: 5px;">Buscar por CEP:</label>
         <input type="text" id="cep_input" placeholder="00000-000" style="width: 100px;">
-        <button type="button" id="cep_search_btn" class="button">Buscar</button>
+        <button type="button" id="busca_cep_btn" class="button">Buscar</button>
         <span id="cep_status" style="margin-left: 10px; font-size: 0.9em; color: #666;"></span>
     `;
     
@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const praiaGrandeLat = -24.0058;
     const praiaGrandeLon = -46.4028;
 
-    let startLat = parseFloat(latInput.value) || praiaGrandeLat;
-    let startLon = parseFloat(lonInput.value) || praiaGrandeLon;
-    let startZoom = latInput.value ? 18 : 13; 
+    let LatInicial = parseFloat(latInput.value) || praiaGrandeLat;
+    let LonInicial = parseFloat(lonInput.value) || praiaGrandeLon;
+    let ZoomInicial = latInput.value ? 18 : 13; 
     
-    const map = L.map(mapDiv).setView([startLat, startLon], startZoom);
+    const map = L.map(mapDiv).setView([LatInicial, LonInicial], ZoomInicial);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    const marker = L.marker([startLat, startLon], {
+    const marker = L.marker([LatInicial, LonInicial], {
         draggable: true 
     }).addTo(map);
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         map.invalidateSize();
     }, 50);
 
-    document.getElementById('cep_search_btn').addEventListener('click', searchByCep);
+    document.getElementById('busca_cep_btn').addEventListener('click', searchByCep);
 
     async function searchByCep() {
         const cepInput = document.getElementById('cep_input');
