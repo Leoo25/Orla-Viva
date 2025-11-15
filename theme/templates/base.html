@@ -15,14 +15,34 @@
              <div class="flex items-center space-x-2">
        <a href="{%url 'home'%}"> <img src="{% static 'images/Logo.png' %}" alt="Logo" class="w-28 h-auto rounded-xl"></a>
       </div>
-     <nav class="hidden md:flex space-x-6 items-center">
+<nav class="hidden md:flex space-x-6 items-center">
+    
     <a href="{% url 'home' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Home</a>
     <a href="{% url 'recomendacoes' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Recomendações</a>
     <a href="{% url 'mapa_eventos' %}" class="px-3 py-2 capitalize text-gray-700 hover:text-blue-600 hover:scale-105 transition duration-200">Eventos</a>
-    {% if user.is_authenticated and user.is_staff %}
-    <a href="{% url 'admin:index' %}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition">Painel Admin</a>
+    {% if user.is_authenticated %} 
+        {% if user.is_staff %}
+            <a href="{% url 'admin:index' %}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition shadow-md">
+                Painel Admin
+            </a>
+        {% endif %}
+
+        <form action="{%url 'logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="px-4 py-2 border border-red-500 text-red-500 font-semibold rounded-lg hover:bg-red-50 hover:scale-105 transition ml-2 flex items-center gap-2">
+                <span>Sair</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}" class="px-3 py-2 font-medium text-gray-600 hover:text-blue-600 transition">
+            Entrar
+        </a>
+        <a href="{% url 'cadastro' %}" class="px-4 py-2 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 hover:scale-105 transition shadow-md">
+            Criar Conta
+        </a>
     {% endif %}
-    </nav>
+</nav>
     </header>
 {% block conteudo %}
 {% endblock %}
