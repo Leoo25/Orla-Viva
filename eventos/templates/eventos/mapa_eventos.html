@@ -2,10 +2,53 @@
 {% block titulo %}Eventos{% endblock %}
 
 {% block conteudo %}
-<div class="p-6">
-    <h1 class="text-3xl font-semibold mb-6">Mapa de Eventos</h1>
-    <div class="rounded-lg overflow-hidden shadow-lg">
-        {{ mapa|safe }}
-    </div>
-</div>
+
+
+<body class="bg-gray-100 text-gray-800">
+
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-extrabold mb-2">Eventos Proximos</h1>
+            <p class="text-black-300 text-lg">Descubra os Eventos em Praia Grande</p>
+        </div>
+    
+
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <article class="bg-white rounded-xl shadow-md hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-1">
+                <h2 class="text-xl font-semibold text-primary mb-3">Estação Verão</h2>
+                <p class="text-sm leading-relaxed mb-4">Realizado na alta temporada durante as férias escolares, o evento traz a Praia Grande shows musicais com artistas nacionais de grande notoriedade em todo o Brasil. O Estação Verão Show acontece no Kartódromo Municipal, espaço confinado, adequado e seguro, com capacidade para receber cerca de 20 mil pessoas, sendo um dos maiores atrativos turísticos da região.</p>
+                <a href="https://www.estacaoveraopg.com.br/" target="_blank" class="inline-block bg-success text-black font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-150 text-sm">Saiba Mais</a>
+            </article>
+
+            <article class="bg-white rounded-xl shadow-md hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-1">
+                <h2 class="text-xl font-semibold text-primary mb-3">Encontro de Carros Antigos</h2>
+                <p class="text-sm leading-relaxed mb-4">Realizado anualmente pela Prefeitura de Praia Grande em parceria com Clube Antigos do Litoral, o Encontro Anual de Carros é realizado no Pavilhão de Eventos Jair Rodrigues( Avenida Savério Fittipaldi, 78  – Quietude), ocorrendo preferencialmente no primeiro final de semana do mês de fevereiro. A programação conta com exposição de veículos antigos, apresentações musicais e praça de alimentação.</p>
+                <a href="https://www.facebook.com/clubeantigosdolitoral/" target="_blank" class="inline-block bg-success text-black font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-150 text-sm">Saiba Mais</a>
+            </article>
+
+            <article class="bg-white rounded-xl shadow-md hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-1">
+                <h2 class="text-xl font-semibold text-primary mb-3">Feira de Artesanato Itinerante</h2>
+                <p class="text-sm leading-relaxed mb-4">As feiras itinerantes são voltadas aos artesãos que não participam das feiras fixas do Município, e acontecem em locais diversos da Cidade, sempre aos finais de semana, uma vez por mês.  Além da exposição e comercialização de produtos 100% artesanais, as feiras contam com o setor de gastronomia, com bolos, doces e diversas guloseimas feitas com muito carinho.</p>
+                <a href="https://www.instagram.com/explore/locations/334040958/feirinha-de-artesanato-caicara---praia-grande/" target="_blank" class="inline-block bg-success text-black font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-150 text-sm">Saiba Mais</a>
+            </article>
+
+            <article class="bg-white rounded-xl shadow-md hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-1">
+                <h2 class="text-xl font-semibold text-primary mb-3">Aniversário de Praia Grande</h2>
+                <p class="text-sm leading-relaxed mb-4">O dia 19 de janeiro é a data para comemorar a emancipação político-administrativa de Praia Grande. A tradicional solenidade em Tributo aos Emancipadores do Município, no Boqueirão, abre a programação especial para a Cidade, que é referência em desenvolvimento.
+ 
+Após a cerimônia, milhares de pessoas realizam a Caminhada dos Emancipadores, que têm início na própria Praça dos Emancipadores e segue até a Praça Duque de Caxias, no Canto do Forte. Ao longo do percurso, os presentes contam com diversas atrações realizadas pela Secretaria de Cultura e Turismo, além de estar em contato com a natureza, no caminho feito pela Avenida Ecológica.
+ 
+As atividades ao longo do dia contam com homenagens a pessoas que se destacaram e contribuíram no desenvolvimento de Praia Grande, inaugurações e atividades culturais, principalmente com a realização de show com artista de renome no cenário musical.   </p>
+                <a href="https://www.atribuna.com.br/cidades/praia-grande/novo-parque-sera-inaugurado-em-praia-grande-durante-aniversario-da-cidade-do-litoral-de-s-o-paulo-1.488647" target="_blank" class="inline-block bg-success text-black font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-150 text-sm">Detalhes do Parque</a>
+            </article>
+
+        </section>
+    </main>
+
+
+
+</body>
+
 {% endblock %}
