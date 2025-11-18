@@ -87,12 +87,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Orla_Viva.urls'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://localhost:8000',
-    'https://127.0.0.1:8000',
-]
-
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -126,7 +120,7 @@ DATABASES = {
     }
 }
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Password validation

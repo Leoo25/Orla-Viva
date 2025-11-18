@@ -3,7 +3,9 @@ import folium
 from core.forms import FormUsuario
 from eventos.models import Evento
 from recomendacoes.models import CategoriaRecomendacao
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -14,7 +16,7 @@ def cadastrar(request):
             user = formulario.save()
             login(request, user)
             return redirect('home')
-    return render(request, "core/cadastro.html", {'form': formulario})
+    return render(request, "core/cadastro.html",{'form':formulario})
 
 def loginUsuario(request):
     if request.POST:
@@ -33,16 +35,12 @@ def logoutUsuario(request):
     return redirect('home')
 
 def home(request):
-    # 1. Configuração do Mapa (Centralizado em Praia Grande)
     m = folium.Map(location=[-24.009197, -46.421477], zoom_start=14) 
-    
-    # Filtra eventos que possuem localização definida
     eventos_com_local = Evento.objects.select_related('categoria').filter(latitude__isnull=False)
     
     for evento in eventos_com_local:
         data_formatada = evento.data.strftime("%d/%m/%Y")
         
-        # Lógica de construção do HTML do Popup
         if evento.imagem and evento.site_url:
             url_imagem = evento.imagem.url
             html_popup = f"""
@@ -85,7 +83,6 @@ def home(request):
             
         popup = folium.Popup(html_popup, max_width=200)
 
-        # Definição de cores e ícones baseados na categoria
         pin_color = 'gray'
         pin_icon = 'info-sign'
         if evento.categoria:
@@ -102,13 +99,13 @@ def home(request):
             )
         ).add_to(m)
     
-    # 2. Dados para o Carrossel de Categorias
+    context = {'mapa': m._repr_html_()}
     categorias_recomendacao = CategoriaRecomendacao.objects.all()
-
-    # 3. Contexto unificado
     context = {
         'mapa': m._repr_html_(),
-        'categorias': categorias_recomendacao  # Chave usada no template: 'categorias'
+        'categorias': categorias_recomendacao
     }
-    
     return render(request, 'core/home.html', context)
+
+
+
