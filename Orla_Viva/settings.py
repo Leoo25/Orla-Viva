@@ -72,7 +72,7 @@ JAZZMIN_SETTINGS = {
 }
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = r"/usr/local/share/nvm/versions/node/v24.11.1/bin/npm"
 
 
 MIDDLEWARE = [

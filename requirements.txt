@@ -1,0 +1,6 @@
+Django>=5.0
+django-jazzmin
+django-tailwind
+psycopg2-binary
+folium
+Pillow
