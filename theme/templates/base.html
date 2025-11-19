@@ -1,0 +1,179 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <title>{% block titulo %}Orla Viva{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-white text-zinc-900 font-sans leading-normal tracking-normal min-h-screen selection:bg-[#FF0080] selection:text-white">
+
+    <header class="sticky top-0 z-50 w-full transition-all duration-300 pt-4 pb-2">
+                   
+        <div class="container mx-auto flex items-center justify-between px-4">
+            
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="block hover:opacity-90 hover:scale-105 transition-all duration-300"> 
+                    <img src="{% static 'images/Logo.png' %}" alt="Logo" class="w-28 h-auto rounded-xl object-contain">
+                </a>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-1 p-1.5 rounded-full 
+                        bg-white/60 backdrop-blur-xl 
+                        border border-white/40 shadow-glass ring-1 ring-zinc-900/5">
+                
+                {% with request.resolver_match.url_name as url_name %}
+                
+                <a href="{% url 'home' %}" 
+                   class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                          {% if url_name == 'home' %} 
+                              bg-white shadow-sm ring-1 ring-black/5
+                          {% else %} 
+                              text-zinc-500 hover:text-zinc-900 hover:bg-white/50 
+                          {% endif %}">
+                   
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="w-4 h-4">
+                     {% if url_name == 'home' %}
+                     <defs>
+                       <linearGradient id="gradHome" x1="0%" y1="100%" x2="100%" y2="0%">
+                         <stop offset="0%" style="stop-color:#FF0080;stop-opacity:1" />
+                         <stop offset="100%" style="stop-color:#FFEA00;stop-opacity:1" />
+                       </linearGradient>
+                     </defs>
+                     <path fill="url(#gradHome)" fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                     {% else %}
+                     <path fill="currentColor" fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                     {% endif %}
+                   </svg>
+                   
+                   <span class="{% if url_name == 'home' %} font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#FF0080] to-[#FFEA00] {% endif %}">
+                       Home
+                   </span>
+                </a>
+
+                <div class="relative group">
+                    <button class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                                   text-zinc-500 hover:bg-white/50 hover:text-zinc-900 group-hover:bg-white/50 group-hover:text-zinc-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Serviços</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300 group-hover:rotate-180 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 
+                                opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                                transition-all duration-300 transform group-hover:translate-y-0 translate-y-2
+                                bg-white/80 backdrop-blur-2xl 
+                                border border-white/40 shadow-glass rounded-2xl overflow-hidden z-50 ring-1 ring-zinc-900/5">
+                        
+                        <div class="p-1.5 flex flex-col gap-1">
+                            <a href="{% url 'recomendacoes' %}" class="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-600 rounded-xl hover:bg-white/50 transition-colors">
+                                <div class="p-1.5 rounded-lg bg-zinc-50 text-zinc-400 group-hover/item:text-[#FF0080] group-hover/item:bg-white transition-all duration-300 shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                      <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                Recomendações
+                            </a>
+                            
+                            <a href="{% url 'mapa_eventos' %}" class="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-600 rounded-xl hover:bg-white/50 transition-colors">
+                                <div class="p-1.5 rounded-lg bg-zinc-50 text-zinc-400 group-hover/item:text-[#FFEA00] group-hover/item:bg-white transition-all duration-300 shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                      <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                Eventos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-zinc-500 hover:bg-white/50 hover:text-zinc-900">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                     <path fill-rule="evenodd" d="M2 5a3 3 0 013-3h10a3 3 0 013 3v10a3 3 0 01-3 3H5a3 3 0 01-3-3V5zm3.75 6.75a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0-4a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z" clip-rule="evenodd" />
+                   </svg>
+                   Contato
+                </a>
+
+                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-zinc-500 hover:bg-white/50 hover:text-zinc-900">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                     <path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z" />
+                   </svg>
+                   Confira
+                </a>
+                
+                {% endwith %}
+            </nav>
+
+            <div class="hidden md:flex items-center gap-1 p-1.5 rounded-full 
+                        bg-white/60 backdrop-blur-xl 
+                        border border-white/40 shadow-glass ring-1 ring-zinc-900/5">
+                
+                {% if user.is_authenticated %} 
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin:index' %}" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-zinc-600 hover:bg-white/50 hover:text-zinc-900 transition-all">
+                            Admin
+                        </a>
+                    {% endif %}
+
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-500 hover:text-red-600 hover:bg-red-50/50 rounded-full transition">
+                            Sair
+                        </button>
+                    </form>
+                {% else %}
+                    
+                    <a href="{% url 'login' %}" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-zinc-500 hover:text-zinc-900 hover:bg-white/50 transition-all">
+                        Entrar
+                    </a>
+                    
+                    <a href="{% url 'cadastro' %}" class="group flex items-center gap-2 px-5 py-2 rounded-full 
+                              bg-white/50 
+                              border border-white/60 shadow-sm
+                              hover:bg-white hover:shadow-md hover:-translate-y-0.5
+                              transition-all duration-300">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="w-4 h-4 group-hover:scale-110 transition-transform duration-300">
+                          <defs>
+                             <linearGradient id="gradCTA" x1="0%" y1="100%" x2="100%" y2="0%">
+                               <stop offset="0%" style="stop-color:#FF0080;stop-opacity:1" />
+                               <stop offset="100%" style="stop-color:#FFEA00;stop-opacity:1" />
+                             </linearGradient>
+                          </defs>
+                          <path fill="url(#gradCTA)" d="M11 5a3 3 0 11-6 0 3 3 0 016 0zM2.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 018 18a9.953 9.953 0 01-5.385-1.572zM16.25 5.75a.75.75 0 00-1.5 0v2h-2a.75.75 0 000 1.5h2v2a.75.75 0 001.5 0v-2h2a.75.75 0 000-1.5h-2v-2z" />
+                        </svg>
+                        
+                        <span class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#FF0080] to-[#FFEA00]">
+                            Criar Conta
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-0 pt-6">
+        {% block conteudo %}
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('keydown', function(evt) {
+            if (evt.shiftKey && (evt.key === 'A' || evt.key === 'a')) {
+                window.location.href = "/admin/";
+            }
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
