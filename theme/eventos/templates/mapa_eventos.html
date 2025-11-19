@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block titulo %}Mapa de Eventos{% endblock %}
+
+{% block conteudo %}
+<section class="min-h-screen w-full bg-gray-50 py-12 overflow-x-hidden selection:bg-[#FF0080] selection:text-white">
+
+    <div class="container mx-auto px-4 mb-10">
+        <div class="border-l-4 border-[#FF0080] pl-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900 tracking-tight">Mapa de Eventos</h1>
+                <p class="mt-2 text-lg text-gray-600">Explore o que está acontecendo na Orla Viva em tempo real.</p>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-2 text-sm font-medium text-gray-500 bg-white/50 px-4 py-2 rounded-full border border-white/60 shadow-sm">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF0080] opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-[#FF0080]"></span>
+                </span>
+                Ao Vivo
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+        
+        <div class="relative p-2 md:p-4 rounded-3xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass ring-1 ring-black/5">
+            
+            <div class="rounded-2xl overflow-hidden bg-white shadow-inner relative z-10 h-[500px] md:h-[650px]">
+                <div class="map-wrapper w-full h-full">
+                    {{ mapa|safe }}
+                </div>
+            </div>
+
+            <div class="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/40 to-transparent rounded-t-3xl pointer-events-none z-20"></div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                <div class="p-2 rounded-lg bg-blue-50 text-blue-600">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm">Navegue</h4>
+                    <p class="text-xs text-gray-500">Clique nos pinos para ver detalhes.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                <div class="p-2 rounded-lg bg-pink-50 text-[#FF0080]">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm">Agenda</h4>
+                    <p class="text-xs text-gray-500">Eventos atualizados diariamente.</p>
+                </div>
+            </div>
+            
+            <a href="{% url 'recomendacoes' %}" class="group flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-[#FF0080] to-[#FFEA00] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                <div class="text-white">
+                    <h4 class="font-bold text-sm drop-shadow-sm">Ver Lista Completa</h4>
+                    <p class="text-xs opacity-90">Prefere em formato de lista?</p>
+                </div>
+                <div class="bg-white/20 p-2 rounded-full backdrop-blur-sm group-hover:bg-white/30 transition-colors">
+                    <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .map-wrapper iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+        border-radius: 1rem;
+    }
+    .folium-map {
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1;
+    }
+</style>
+{% endblock %}

@@ -1,127 +1,115 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block titulo %}Recomendações - Orla Viva{% endblock %}
+{% block titulo %}Recomendações{% endblock %}
 
 {% block conteudo %}
-<section class="relative min-h-screen w-full bg-gray-100 px-4 py-12 selection:bg-blue-500 selection:text-white">
+<section class="min-h-screen w-full bg-gray-50 py-12 overflow-x-hidden selection:bg-[#FF0080] selection:text-white">
   
-  <div class="container mx-auto mb-12">
-    <h2 class="text-4xl font-bold tracking-tight text-gray-900">
-      Descubra a Orla
-    </h2>
-    <p class="mt-2 text-lg text-gray-500">As melhores experiências selecionadas para você.</p>
+  <div class="container mx-auto px-4 mb-12">
+    <div class="border-l-4 border-[#FF0080] pl-6">
+        <h2 class="text-4xl font-bold text-gray-900 tracking-tight">Descubra a Orla</h2>
+        <p class="mt-2 text-lg text-gray-600">As melhores experiências selecionadas para você.</p>
+    </div>
   </div>
 
   {% for categoria in categorias_recomendacao %}
-    {% if categoria.recomendacoes.all %} <div class="container mx-auto mb-16">
+  <div class="mb-16 container mx-auto px-4">
+    
+    <div class="mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-3 w-3 rounded-full bg-gradient-to-tr from-[#FF0080] to-[#FFEA00] shadow-sm"></div>
+        <h3 class="text-2xl font-bold text-gray-800">{{ categoria.nome }}</h3>
+      </div>
+      
+      <div class="hidden md:flex gap-2">
+         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', -320)" 
+                 class="group p-2 rounded-full bg-white text-gray-600 shadow-sm border border-gray-200 hover:border-[#FF0080] hover:text-[#FF0080] transition-all duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+         </button>
+         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', 320)" 
+                 class="group p-2 rounded-full bg-white text-gray-600 shadow-sm border border-gray-200 hover:border-[#FF0080] hover:text-[#FF0080] transition-all duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+         </button>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div id="carousel-{{ categoria.pk }}" 
+           class="flex gap-6 overflow-x-auto scroll-smooth pb-10 pt-4 px-2 snap-x snap-mandatory"
+           style="scrollbar-width: none; -ms-overflow-style: none;">
         
-        <div class="mb-6 flex items-center gap-3 px-1">
-          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white shadow-md">
-            <span class="font-bold text-sm">{{ categoria.nome|slice:":1" }}</span>
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-800">{{ categoria.nome }}</h3>
-        </div>
-
-        <div class="relative group">
-          
-          <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', -340)"
-                  class="absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 transform rounded-full border border-glass-border bg-glass-base p-3 shadow-glass backdrop-blur-thin transition-all hover:scale-110 hover:bg-white opacity-0 group-hover:opacity-100 hidden md:flex">
-            <svg class="h-6 w-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-          </button>
-
-          <div id="carousel-{{ categoria.pk }}" 
-               class="flex gap-6 overflow-x-auto scroll-smooth pb-8 px-4 snap-x snap-mandatory hide-scrollbar">
-            
-            {% for rec in categoria.recomendacoes.all %} <div class="snap-center shrink-0">
+        {% for rec in categoria.recomendacoes.all %} 
+        
+        <div class="snap-center shrink-0">
+            <a href="{{ rec.redeSocial_url|default:'#' }}" target="_blank" 
+               class="group relative block h-[400px] w-[280px] md:w-[320px] overflow-hidden rounded-[2rem] shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl bg-gray-800">
               
-              <div class="group/card relative h-[420px] w-[320px] overflow-hidden rounded-[2rem] border border-glass-border bg-white shadow-glass transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
-                
-                <div class="h-[65%] w-full overflow-hidden relative bg-gray-200">
-                  {% if rec.imagem %}
-                    <img src="{{ rec.imagem.url }}" 
-                         alt="{{ rec.nome }}" 
-                         class="h-full w-full object-cover transition-transform duration-700 group-hover/card:scale-105">
-                  {% else %}
-                    <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
-                      <span class="text-blue-300 font-bold text-4xl opacity-50">{{ rec.nome|slice:":1" }}</span>
-                    </div>
-                  {% endif %}
+              <div class="absolute inset-0 h-full w-full">
+                {% if rec.imagem %}
+                  <img src="{{ rec.imagem.url }}" alt="{{ rec.nome }}" 
+                       class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110" />
+                {% else %}
+                  <div class="h-full w-full flex items-center justify-center bg-gray-700">
+                      <span class="text-6xl font-bold text-white/10 select-none">{{ rec.nome|slice:":1" }}</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300"></div>
+
+              <div class="absolute inset-0 flex flex-col justify-between p-6 z-10 pointer-events-none">
                   
-                  <div class="absolute top-4 right-4 flex flex-col gap-2 items-end">
+                  <div class="flex justify-end items-start gap-2">
                     {% if rec.avaliacao %}
-                    <span class="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-gray-900 shadow-sm backdrop-blur-md">
-                      <span class="text-yellow-500">★</span> {{ rec.get_avaliacao_display }}
+                    <span class="flex items-center gap-1 rounded-lg bg-white/20 backdrop-blur-md border border-white/10 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+                      <span class="text-yellow-400 text-sm">★</span> {{ rec.get_avaliacao_display }}
                     </span>
                     {% endif %}
                   </div>
-                </div>
 
-                <div class="absolute bottom-0 h-[40%] w-full bg-glass-base backdrop-blur-regular border-t border-glass-border p-5 flex flex-col justify-between">
-                  
                   <div>
-                    <div class="flex justify-between items-start mb-1">
-                      <h4 class="text-xl font-bold text-gray-900 line-clamp-1" title="{{ rec.nome }}">
+                      <h3 class="text-2xl font-bold text-white leading-tight mb-2 drop-shadow-lg">
                         {{ rec.nome }}
-                      </h4>
-                      {% if rec.faixa_preco %}
-                      <span class="text-xs font-medium text-gray-500 bg-black/5 px-2 py-0.5 rounded">
-                        {{ rec.get_faixa_preco_display }}
-                      </span>
+                      </h3>
+                      
+                      {% if rec.endereco_texto %}
+                      <p class="text-sm text-gray-300 line-clamp-2 mb-5 font-medium flex items-start gap-1.5 opacity-90 group-hover:text-gray-200 transition-colors">
+                        <svg class="w-4 h-4 mt-0.5 shrink-0 text-[#FF0080] opacity-80 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {{ rec.endereco_texto }}
+                      </p>
+                      {% else %}
+                      <div class="mb-5"></div>
                       {% endif %}
-                    </div>
-                    
-                    {% if rec.endereco_texto %}
-                    <p class="flex items-start gap-1.5 text-sm text-gray-600 line-clamp-2 mt-1">
-                      <svg class="h-4 w-4 shrink-0 text-blue-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                      {{ rec.endereco_texto }}
-                    </p>
-                    {% endif %}
+
+                      <div class="w-full py-3 rounded-xl border border-white/30 backdrop-blur-md text-sm font-bold text-center transition-all duration-300 pointer-events-auto
+                                  bg-white/10 text-white shadow-lg
+                                  group-hover:bg-white/20
+                                  group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF0080] group-hover:to-[#FFEA00]">
+                          {% if rec.redeSocial_url %}Ver Detalhes{% else %}Sem Link{% endif %}
+                      </div>
                   </div>
-
-                  {% if rec.redeSocial_url %}
-                  <a href="{{ rec.redeSocial_url }}" target="_blank" 
-                     class="mt-2 w-full rounded-xl bg-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 active:scale-95">
-                    Ver Detalhes
-                  </a>
-                  {% else %}
-                  <button disabled class="mt-2 w-full rounded-xl bg-gray-200 py-2.5 text-center text-sm font-semibold text-gray-400 cursor-not-allowed">
-                    Sem Link
-                  </button>
-                  {% endif %}
-
-                </div>
               </div>
-              </div>
-            {% endfor %}
-          </div>
-          
-          <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', 340)"
-                  class="absolute right-0 top-1/2 z-20 translate-x-4 -translate-y-1/2 transform rounded-full border border-glass-border bg-glass-base p-3 shadow-glass backdrop-blur-thin transition-all hover:scale-110 hover:bg-white opacity-0 group-hover:opacity-100 hidden md:flex">
-            <svg class="h-6 w-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </button>
-
+            </a>
         </div>
+
+        {% empty %}
+          <div class="w-full py-12 px-4 border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-400 bg-white/50">
+            <p class="font-medium">Nenhuma recomendação cadastrada.</p>
+          </div>
+        {% endfor %}
+        
+        <div class="w-4 shrink-0"></div>
       </div>
-    
-    {% endif %}
+    </div>
+  </div>
   {% empty %}
-    <div class="flex flex-col items-center justify-center py-20 text-center">
-      <div class="rounded-full bg-gray-200 p-6 mb-4">
-        <svg class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-      </div>
-      <h3 class="text-xl font-medium text-gray-900">Nenhuma recomendação encontrada</h3>
-      <p class="text-gray-500 mt-1">Cadastre categorias e itens no painel administrativo.</p>
+    <div class="text-center py-20 container mx-auto">
+        <h3 class="text-xl font-bold text-gray-900">Nenhuma categoria encontrada.</h3>
     </div>
   {% endfor %}
 
 </section>
-
-<style>
-  /* Utilitário para esconder scrollbar mas manter funcionalidade */
-  .hide-scrollbar::-webkit-scrollbar { display: none; }
-  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
 
 <script>
   function scrollCarousel(id, amount) {
@@ -131,4 +119,5 @@
     }
   }
 </script>
+
 {% endblock %}
