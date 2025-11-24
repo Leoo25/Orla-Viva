@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block titulo %}Eventos{% endblock %}
+
+{% block conteudo %}
+<div class="p-6">
+    <h1 class="text-3xl font-semibold mb-6">Mapa de Eventos</h1>
+    <div class="rounded-lg overflow-hidden shadow-lg">
+        {{ mapa|safe }}
+    </div>
+</div>
+{% endblock %}

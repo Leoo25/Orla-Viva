@@ -1,41 +1,10 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 import folium
-from core.forms import FormUsuario
-from eventos.models import Evento
-from recomendacoes.models import CategoriaRecomendacao
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.contrib.auth import logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from .models import Evento, CategoriaEventos
 
-def cadastrar(request):
-    formulario = FormUsuario(request.POST or None)
-    if request.POST:
-        if formulario.is_valid():
-            user = formulario.save()
-            login(request, user)
-            return redirect('home')
-    return render(request, "core/cadastro.html",{'form':formulario})
-
-def loginUsuario(request):
-    if request.POST:
-        nome = request.POST.get('nome')
-        senha = request.POST.get('senha')
-        usuario = authenticate(request, username=nome, password=senha)
-        if usuario is not None:
-            login(request, usuario)
-            return redirect('home')
-        else: 
-            messages.error(request, "Usuario ou senha incorreto!")
-    return render(request, "core/login.html")
-
-def logoutUsuario(request):
-    logout(request)
-    return redirect('home')
-
-def home(request):
-    m = folium.Map(location=[-24.009197, -46.421477], zoom_start=14) 
+# Create your views here.
+def mapa_eventos(request):
+    m = folium.Map(location=[-24.0058, -46.4028], zoom_start=12) 
     eventos_com_local = Evento.objects.select_related('categoria').filter(latitude__isnull=False)
     
     for evento in eventos_com_local:
@@ -100,12 +69,4 @@ def home(request):
         ).add_to(m)
     
     context = {'mapa': m._repr_html_()}
-    categorias_recomendacao = CategoriaRecomendacao.objects.all()
-    context = {
-        'mapa': m._repr_html_(),
-        'categorias': categorias_recomendacao
-    }
-    return render(request, 'core/home.html', context)
-
-
-
+    return render(request, 'eventos/mapa_eventos.html', context)

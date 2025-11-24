@@ -18,6 +18,5 @@ def lista_por_categoria(request, pk):
         'categoria': categoria,
         'recomendacoes': itens
     }
-    
-    return render(request, 'recomendacoes/recomendacoes.html', context)
+    return render(request, 'recomendacoes/lista_por_categoria.html', context)
     
