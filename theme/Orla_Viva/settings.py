@@ -71,9 +71,24 @@ JAZZMIN_SETTINGS = {
     }
 }
 
-TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"D:\Gordo\Node\npm.cmd"
+import os  # Certifique-se de que 'import os' está no topo, ou deixe aqui se não tiver certeza
 
+# --- CONFIGURAÇÃO BLINDADA DO ARQUITETO AURA ---
+
+TAILWIND_APP_NAME = 'theme'
+
+# 1. Caminho absoluto do NPM (o que você descobriu)
+NPM_BIN_PATH = '/usr/local/share/nvm/versions/node/v24.11.1/bin/npm'
+
+# 2. Caminho da pasta onde o Node vive
+NODE_BIN_DIR = '/usr/local/share/nvm/versions/node/v24.11.1/bin'
+
+# 3. INJEÇÃO DE AMBIENTE: Força o Python a incluir essa pasta no PATH
+# Isso impede que o npm falhe ao procurar pelo comando 'node'
+if NODE_BIN_DIR not in os.environ.get('PATH', ''):
+    os.environ['PATH'] = NODE_BIN_DIR + os.pathsep + os.environ.get('PATH', '')
+
+# ------------------------------------------------
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
