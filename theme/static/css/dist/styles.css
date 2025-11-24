@@ -502,6 +502,9 @@
   .h-16 {
     height: calc(var(--spacing) * 16);
   }
+  .h-32 {
+    height: calc(var(--spacing) * 32);
+  }
   .h-48 {
     height: calc(var(--spacing) * 48);
   }
@@ -618,8 +621,14 @@
   .animate-ping {
     animation: var(--animate-ping);
   }
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .resize {
     resize: both;
+  }
+  .resize-none {
+    resize: none;
   }
   .snap-x {
     scroll-snap-type: x var(--tw-scroll-snap-strictness);
@@ -1522,6 +1531,10 @@
     --tw-duration: 1000ms;
     transition-duration: 1000ms;
   }
+  .outline-none {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
   .select-none {
     -webkit-user-select: none;
     user-select: none;
@@ -1910,12 +1923,21 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
+  .focus\:border-\[\#FF0080\]:focus {
+    border-color: #FF0080;
+  }
   .focus\:border-sky-200:focus {
     border-color: var(--color-sky-200);
+  }
+  .focus\:bg-white:focus {
+    background-color: var(--color-white);
   }
   .focus\:ring-2:focus {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .focus\:ring-\[\#FF0080\]\/20:focus {
+    --tw-ring-color: color-mix(in oklab, #FF0080 20%, transparent);
   }
   .focus\:ring-sky-200:focus {
     --tw-ring-color: var(--color-sky-200);

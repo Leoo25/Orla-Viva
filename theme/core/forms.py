@@ -24,3 +24,4 @@ class FormUsuario(UserCreationForm):
                 'text-gray-700 bg-gray-50'
             )
     
+    
