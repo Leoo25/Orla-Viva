@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import ContatoForm
 from django.contrib import messages
+from .models import Contato
 
 # Create your views here.
 
@@ -24,6 +25,14 @@ def contato(request):
         'form_contato': form,
         'sucesso': sucesso
     })
+
+def lista_mensagens(request):
+    mensagens_contato = Contato.objects.all()
+    
+    context = {
+        'mensagens_contato': mensagens_contato,
+    }
+    return render(request, 'contato/mensagens.html', context)
 
 
 

@@ -103,12 +103,17 @@
                    Contato
                 </a>
 
-                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-zinc-500 hover:bg-white/50 hover:text-zinc-900">
+                {% if user.is_authenticated%}
+                    {% if user.is_staff %}
+                <a href="{% url 'lista_mensagens' %}" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-zinc-500 hover:bg-white/50 hover:text-zinc-900">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                      <path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z" />
                    </svg>
-                   Confira
+                   Ver Mensagens
                 </a>
+                {% endif %}
+                {% endif %}
+
                 
                 {% endwith %}
             </nav>

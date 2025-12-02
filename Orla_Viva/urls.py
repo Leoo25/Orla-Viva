@@ -19,7 +19,7 @@ from django.urls import include, path
 from core.views import home
 from django.conf import settings
 from django.conf.urls.static import static
-from contato.views import contato
+from contato.views import contato, lista_mensagens
 
 
 urlpatterns = [
@@ -29,6 +29,8 @@ urlpatterns = [
     path('recomendacoes/', include('recomendacoes.urls')),
     path('core/', include('core.urls')),
     path('contato/', contato, name='contato'),
+    path('mensagens/', lista_mensagens, name='lista_mensagens'),
+    
 
 ]
 if settings.DEBUG:
