@@ -19,6 +19,7 @@ from django.urls import include, path
 from core.views import home
 from django.conf import settings
 from django.conf.urls.static import static
+from contato.views import contato
 
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('eventos/', include('eventos.urls')),
     path('recomendacoes/', include('recomendacoes.urls')),
     path('core/', include('core.urls')),
+    path('contato/', contato, name='contato'),
 
 ]
 if settings.DEBUG:
