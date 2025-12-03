@@ -73,7 +73,7 @@ JAZZMIN_SETTINGS = {
 }
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = r"D:\Gordo\Node\npm.cmd"
 
 
 MIDDLEWARE = [
@@ -114,7 +114,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'orla_viva_db',   
         'USER': 'postgres',      
-        'PASSWORD': '200502', 
+        'PASSWORD': 'gordo78', 
         'HOST': 'localhost',  
         'PORT': '5432',       
 

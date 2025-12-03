@@ -23,6 +23,12 @@
                 </a>
             </div>
 
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-zinc-600 hover:text-[#FF0080] focus:outline-none transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+
             <nav class="hidden md:flex items-center gap-1 p-1.5 rounded-full 
                         bg-white/60 backdrop-blur-xl 
                         border border-white/40 shadow-glass ring-1 ring-zinc-900/5">
@@ -114,7 +120,6 @@
                 {% endif %}
                 {% endif %}
 
-                
                 {% endwith %}
             </nav>
 
@@ -164,6 +169,53 @@
                 {% endif %}
             </div>
         </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-zinc-200 shadow-xl z-40">
+            <div class="flex flex-col p-4 space-y-3">
+                
+                <a href="{% url 'home' %}" class="block px-4 py-3 rounded-xl hover:bg-zinc-50 font-medium text-zinc-700 hover:text-[#FF0080] transition-colors">
+                    Home
+                </a>
+                
+                <div class="px-4 py-2 border-l-2 border-[#FF0080]/50 ml-2 bg-zinc-50/50 rounded-r-xl">
+                    <p class="text-xs font-bold text-zinc-400 mb-2 uppercase tracking-wider">Serviços</p>
+                    <a href="{% url 'recomendacoes' %}" class="block py-2 text-zinc-600 hover:text-zinc-900">Recomendações</a>
+                    <a href="{% url 'mapa_eventos' %}" class="block py-2 text-zinc-600 hover:text-zinc-900">Eventos</a>
+                </div>
+
+                <a href="{% url 'contato' %}" class="block px-4 py-3 rounded-xl hover:bg-zinc-50 font-medium text-zinc-700 hover:text-[#FF0080] transition-colors">
+                    Contato
+                </a>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                    <a href="{% url 'lista_mensagens' %}" class="block px-4 py-3 rounded-xl hover:bg-zinc-50 font-medium text-zinc-700 transition-colors">
+                        Mensagens
+                    </a>
+                    <a href="{% url 'admin:index' %}" class="block px-4 py-3 rounded-xl hover:bg-zinc-50 font-medium text-zinc-700 transition-colors">
+                        Admin
+                    </a>
+                    {% endif %}
+                    
+                    <form action="{% url 'logout' %}" method="post" class="block">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-bold transition-colors">
+                            Sair
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-zinc-100">
+                        <a href="{% url 'login' %}" class="flex items-center justify-center px-4 py-3 rounded-xl bg-zinc-100 text-zinc-700 font-bold hover:bg-zinc-200 transition">
+                            Entrar
+                        </a>
+                        <a href="{% url 'cadastro' %}" class="flex items-center justify-center px-4 py-3 rounded-xl bg-gradient-to-r from-[#FF0080] to-[#FFEA00] text-white font-bold shadow-md hover:shadow-lg transition">
+                            Criar Conta
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
     </header>
 
     <main class="relative z-0 pt-6">
@@ -178,6 +230,15 @@
                 window.location.href = "/admin/";
             }
         });
+
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        if(btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
     </script>
     {% block scripts %}{% endblock %}
 </body>

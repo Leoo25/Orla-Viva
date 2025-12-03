@@ -1,52 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Caixa de Entrada{% endblock %}
-{% block main_class %}p-0 m-0{% endblock %}
+{% block title %}Caixa de Entrada | Admin{% endblock %}
+
 {% block conteudo %}
-<div class="auth-bg" style="min-height: 90vh; align-items: flex-start; padding-top: 100px;">
-<div class="container">
-<div class="row justify-content-center">
-<div class="col-lg-10">
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-white m-0" style="font-size: 3rem; text-shadow: 2px 2px 0 #000000ff;">
-        Mensagens Recebidas
-    </h2>
-    <span class="badge bg-danger fs-6">Admin Zone</span>
-</div>
-{% if mensagens_contato %}
-    <div class="row g-4">
-        {% for msg in mensagens_contato %}
-        <div class="col-12">
-            <div class="card bg-dark text-black border-secondary shadow-sm card-hover-effect">
-                <div class="card-header border-secondary d-flex justify-content-between align-items-center bg-black-rock">
-                    <div>
-                        <strong class="text-danger fs-5">{{ msg.nome }}</strong>
-                        <br>
-                        <small class="text-muted">{{ msg.email }}</small>
-                    </div>
-                    <span class="badge bg-secondary">{{ msg.criado_em|date:"d/m/Y H:i" }}</span>
-                </div>
-                <div class="card-body" style="background-color: #151515;">
-                    <p class="card-text fs-5" style="white-space: pre-wrap;">{{ msg.mensagem }}</p>
+<div class="min-h-screen bg-zinc-50 pt-10 pb-20">
+    <div class="container mx-auto px-4">
+        
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-zinc-900 tracking-tight">
+                        Mensagens Recebidas
+                    </h1>
+                    <p class="text-zinc-500 mt-1">Gerencie o feedback dos usuários</p>
                 </div>
             </div>
+
+            {% if mensagens_contato %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for msg in mensagens_contato %}
+                    <div class="group bg-white rounded-2xl p-6 shadow-sm border border-zinc-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                        
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[#FF0080] to-[#FFEA00]"></div>
+
+                        <div class="flex justify-between items-start mb-4 pl-2">
+                            <div>
+                                <h3 class="font-bold text-lg text-zinc-800 leading-tight group-hover:text-[#FF0080] transition-colors">
+                                    {{ msg.nome }}
+                                </h3>
+                                <a href="mailto:{{ msg.email }}" class="text-xs text-zinc-400 hover:text-blue-500 transition-colors">
+                                    {{ msg.email }}
+                                </a>
+                            </div>
+                            <span class="text-[10px] font-bold text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
+                                {{ msg.criado_em|date:"d/m/Y" }}
+                            </span>
+                        </div>
+
+                        <div class="pl-2">
+                            <div class="bg-zinc-50 rounded-xl p-4 text-sm text-zinc-600 leading-relaxed border border-zinc-100 h-40 overflow-y-auto custom-scrollbar">
+                                {{ msg.mensagem|linebreaksbr }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-dashed border-zinc-300 text-center shadow-sm">
+                    <div class="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-zinc-800 mb-1">Caixa de entrada limpa</h3>
+                    <p class="text-zinc-500">Nenhuma mensagem recebida por enquanto.</p>
+                </div>
+            {% endif %}
+
+            <div class="text-center mt-12">
+                <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-[#FF0080] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                      <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                    Voltar para a Home
+                </a>
+            </div>
+
         </div>
-        {% endfor %}
     </div>
-{% else %}
-    <div class="alert alert-dark border-secondary text-center p-5">
-        <h3 class="text-muted mb-3" style="font-family: 'New Rocker', cursive;">Nenhuma Mensagem</h3>
-        <p class="text-secondary">A caixa de entrada está vazia no momento.</p>
-    </div>
-{% endif %}
-<div class="text-center mt-5">
-    <a href="{% url 'home' %}" class="text-secondary text-decoration-none">
-        <i class="bi bi-arrow-left"></i> Voltar para o Home
-    </a>
 </div>
 
-</div>
-</div>
-</div>
-</div>
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #e4e4e7;
+        border-radius: 20px;
+    }
+</style>
 {% endblock conteudo %}
