@@ -122,20 +122,16 @@ WSGI_APPLICATION = 'Orla_Viva.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'orla_viva_db',   
-        'USER': 'postgres',      
-        'PASSWORD': 'gordo78', 
-        'HOST': 'localhost',  
-        'PORT': '5432',       
-
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
-database_url = os.environ.get('DATABASE_URL')
-if database_url:
-    DATABASES['default'] = dj_database_url.parse(database_url)
+
+
     
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
