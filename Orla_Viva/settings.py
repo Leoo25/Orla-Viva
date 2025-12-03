@@ -27,7 +27,15 @@ SECRET_KEY = 'django-insecure-&z!l8@2d*5fohpvwt63@!@w1%@az^o-^gf1!ftcr=ax@hmh5vz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "https://orla-viva.onrender.com",
+    "localhost",
+    "127.0.0.1"
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://orla-viva.onrender.com",
+    "https://*.onrender.com",
+]
 
 
 # Application definition
