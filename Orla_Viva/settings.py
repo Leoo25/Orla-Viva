@@ -30,9 +30,11 @@ SECRET_KEY = 'django-insecure-&z!l8@2d*5fohpvwt63@!@w1%@az^o-^gf1!ftcr=ax@hmh5vz
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "https://orla-viva.onrender.com",
+    "orla-viva.onrender.com",
+    '.onrender.com',
     "localhost",
     "127.0.0.1"
+    
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://orla-viva.onrender.com",
