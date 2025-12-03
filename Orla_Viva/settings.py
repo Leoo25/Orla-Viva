@@ -84,8 +84,7 @@ JAZZMIN_SETTINGS = {
     }
 }
 
-TAILWIND_APP_NAME = 'None'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+TAILWIND_APP_NAME = 'theme'
 
 
 MIDDLEWARE = [
