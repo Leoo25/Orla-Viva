@@ -121,13 +121,27 @@ WSGI_APPLICATION = 'Orla_Viva.wsgi.application'
 
 
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+
+if 'DATABASE_URL' in os.environ:
+    
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        )
+    }
+else:
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'orla_viva_db',        
+            'PASSWORD': '200502',      
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 
     
