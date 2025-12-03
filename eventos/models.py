@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class CategoriaEventos(models.Model):
@@ -30,6 +31,12 @@ class Evento(models.Model):
         choices=OPCOES_DESTAQUE, 
         default=False, 
         verbose_name="Destaque"
+    )
+    favoritos = models.ManyToManyField(
+        User, 
+        related_name='eventos_favoritos', 
+        blank=True, 
+        verbose_name="Favoritado por"
     )
 
     def __str__(self):

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class CategoriaRecomendacao(models.Model):
@@ -44,6 +45,11 @@ class Recomendacao(models.Model):
         ('★★★★★','★★★★★'),
     ]
     avaliacao = models.CharField(max_length=5, choices=AVALIACOES_CHOICES, blank = True, null= True)
+    favoritos = models.ManyToManyField(
+        User, 
+        related_name='recomendacoes_favoritas', 
+        blank=True
+    )
     
 
     def __str__(self):

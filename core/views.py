@@ -8,6 +8,8 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from eventos.models import Evento
+from recomendacoes.models import Recomendacao
 
 def cadastrar(request):
     formulario = FormUsuario(request.POST or None)
@@ -106,6 +108,16 @@ def home(request):
         'categorias': categorias_recomendacao
     }
     return render(request, 'core/home.html', context)
+@login_required
+def meus_favoritos(request):
+    eventos_fav = request.user.eventos_favoritos.all()    
+    recomendacoes_fav = request.user.recomendacoes_favoritas.all()
+    
+    context = {
+        'eventos': eventos_fav,
+        'recomendacoes': recomendacoes_fav
+    }
+    return render(request, 'core/meus_favoritos.html', context)
 
 
 

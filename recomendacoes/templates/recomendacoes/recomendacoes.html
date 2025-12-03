@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block titulo %}Recomendações{% endblock %}
+{% block titulo %}Recomendações | Orla Viva{% endblock %}
 
 {% block conteudo %}
 <section class="min-h-screen w-full bg-gray-50 py-12 overflow-x-hidden">
   
-  <div class="container mx-auto px-4 mb-12">
+  <div class="container mx-auto px-4 mb-12 flex flex-col md:flex-row justify-between items-end gap-4">
     <div class="border-l-4 border-[#FF0080] pl-6">
         <h2 class="text-4xl font-bold text-gray-900 tracking-tight">Descubra a Orla</h2>
         <p class="mt-2 text-lg text-gray-600">As melhores experiências selecionadas para você.</p>
     </div>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'meus_favoritos' %}" class="flex items-center gap-2 text-[#FF0080] font-bold hover:underline mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+        </svg>
+        Ver Meus Favoritos
+    </a>
+    {% endif %}
   </div>
 
   {% for categoria in categorias_recomendacao %}
@@ -20,15 +29,19 @@
     <div class="mb-6 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="h-3 w-3 rounded-full bg-gradient-to-tr from-[#FF0080] to-[#FFEA00] shadow-sm"></div>
-        <h3 class="text-2xl font-bold text-gray-800">{{ categoria.nome }}</h3>
+        <h3 class="text-2xl font-bold text-gray-800">
+            <a href="{% url 'lista_recomendacoes_por_categoria' categoria.pk %}" class="hover:text-[#FF0080] transition-colors">
+                {{ categoria.nome }}
+            </a>
+        </h3>
         <span class="text-xs text-gray-400">({{ categoria.recomendacao_set.count }} itens)</span>
       </div>
       
       <div class="hidden md:flex gap-2">
-         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', -320)" class="p-2 rounded-full bg-white shadow border hover:border-[#FF0080]">
+         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', -320)" class="p-2 rounded-full bg-white shadow border hover:border-[#FF0080] transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
          </button>
-         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', 320)" class="p-2 rounded-full bg-white shadow border hover:border-[#FF0080]">
+         <button onclick="scrollCarousel('carousel-{{ categoria.pk }}', 320)" class="p-2 rounded-full bg-white shadow border hover:border-[#FF0080] transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
          </button>
       </div>
@@ -42,44 +55,57 @@
         {% for rec in categoria.recomendacao_set.all %} 
         
         <div class="snap-center shrink-0">
-            <a href="{{ rec.redeSocial_url|default:'#' }}" target="_blank" 
-               class="group relative block h-[400px] w-[280px] md:w-[320px] overflow-hidden rounded-[2rem] shadow-lg bg-gray-800 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl">
+            <div class="group relative block h-[400px] w-[280px] md:w-[320px] overflow-hidden rounded-[2rem] shadow-lg bg-gray-800 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl">
               
-              <div class="absolute inset-0 h-full w-full">
-                {% if rec.imagem %}
-                  <img src="{{ rec.imagem.url }}" alt="{{ rec.nome }}" class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110" />
-                {% else %}
-                  <div class="h-full w-full flex items-center justify-center bg-gray-700 text-white/20 font-bold text-4xl">
-                      {{ rec.nome|slice:":1" }}
-                  </div>
-                {% endif %}
-              </div>
+              {% if user.is_authenticated %}
+              <a href="{% url 'toggle_favorito_recomendacao' rec.id %}" 
+                 class="absolute top-4 right-4 z-30 p-2 rounded-full bg-white/20 backdrop-blur-md hover:bg-white shadow-lg transition-all group/heart border border-white/10"
+                 title="Favoritar">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" 
+                       class="w-6 h-6 {% if user in rec.favoritos.all %}text-[#FF0080]{% else %}text-white group-hover/heart:text-[#FF0080]{% endif %} transition-colors">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                  </svg>
+              </a>
+              {% endif %}
 
-              <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
-
-              <div class="absolute inset-0 flex flex-col justify-between p-6 pointer-events-none">
-                  <div class="flex justify-end">
-                    {% if rec.avaliacao %}
-                    <span class="bg-white/20 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-white border border-white/10">
-                      Avaliações: {{ rec.get_avaliacao_display }}
-                    </span>
+              <a href="{{ rec.redeSocial_url|default:'#' }}" target="_blank" class="block w-full h-full">
+                  <div class="absolute inset-0 h-full w-full">
+                    {% if rec.imagem %}
+                      <img src="{{ rec.imagem.url }}" alt="{{ rec.nome }}" class="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110" />
+                    {% else %}
+                      <div class="h-full w-full flex items-center justify-center bg-gray-700 text-white/20 font-bold text-4xl">
+                          {{ rec.nome|slice:":1" }}
+                      </div>
                     {% endif %}
                   </div>
-                  <div>
-                      <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">{{ rec.nome }}</h3>
-                      {% if rec.endereco_texto %}
-                        <p class="text-sm text-gray-300 mb-4 flex gap-1"><span class="text-[#FF0080]">📍</span> {{ rec.endereco_texto }}</p>
-                      {% endif %}
-                      <div class="w-full py-3 rounded-xl bg-white/10 text-white text-center font-bold border border-white/30 backdrop-blur-md pointer-events-auto group-hover:bg-[#FF0080] group-hover:border-[#FF0080] transition-colors">
-                          Ver Detalhes
+
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+
+                  <div class="absolute inset-0 flex flex-col justify-between p-6 pointer-events-none">
+                      <div class="flex justify-start">
+                        {% if rec.avaliacao %}
+                        <span class="bg-white/20 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-white border border-white/10 flex items-center gap-1">
+                          <span class="text-yellow-400">Avaliação:</span> {{ rec.get_avaliacao_display }}
+                        </span>
+                        {% endif %}
+                      </div>
+                      
+                      <div>
+                          <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">{{ rec.nome }}</h3>
+                          {% if rec.endereco_texto %}
+                            <p class="text-sm text-gray-300 mb-4 flex gap-1 line-clamp-1"><span class="text-[#FF0080]">📍</span> {{ rec.endereco_texto }}</p>
+                          {% endif %}
+                          <div class="w-full py-3 rounded-xl bg-white/10 text-white text-center font-bold border border-white/30 backdrop-blur-md pointer-events-auto group-hover:bg-[#FF0080] group-hover:border-[#FF0080] transition-colors">
+                              Ver Detalhes
+                          </div>
                       </div>
                   </div>
-              </div>
-            </a>
+              </a>
+            </div>
         </div>
 
         {% empty %}
-          <div class="py-10 w-full text-center text-gray-400 border-2 border-dashed rounded-xl">
+          <div class="py-10 w-full text-center text-gray-400 border-2 border-dashed rounded-xl shrink-0">
             Nenhuma recomendação nesta categoria ainda.
           </div>
         {% endfor %}

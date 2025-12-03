@@ -6,117 +6,105 @@
 {% block conteudo %}
 <section class="min-h-screen w-full bg-zinc-50 py-12 overflow-x-hidden">
   
-    <div class="container mx-auto px-4 mb-10">
+    <div class="container mx-auto px-4 mb-8 flex justify-between items-end">
         <div class="border-l-4 border-[#FF0080] pl-6">
-            <h1 class="text-4xl font-bold text-zinc-900 tracking-tight">Eventos de Praia Grande</h1>
-            <p class="mt-2 text-lg text-zinc-600">Confira o que está rolando na cidade.</p>
+            <h1 class="text-4xl font-bold text-zinc-900 tracking-tight">Eventos</h1>
+            <p class="mt-2 text-lg text-zinc-600">O que rola na cidade.</p>
         </div>
-    </div>
-
-    <div class="container mx-auto px-4 mb-16 relative">
-        <div class="flex items-center gap-3 mb-6 pl-2">
-            <div class="h-3 w-3 rounded-full bg-gradient-to-tr from-[#FF0080] to-[#FFEA00] shadow-sm"></div>
-            <h3 class="text-2xl font-bold text-zinc-800">Destaques</h3>
-        </div>
-
-        {% if destaques %}
-            <div class="swiper swiper-destaques pb-12 px-2">
-                <div class="swiper-wrapper">
-                    {% for evento in destaques %}
-                    <div class="swiper-slide h-[400px] w-full max-w-lg rounded-[2rem] overflow-hidden shadow-xl relative group">
-                        <a href="{{ evento.site_url|default:'#' }}" target="_blank" class="block w-full h-full">
-                            {% if evento.imagem %}
-                                <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" 
-                                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            {% else %}
-                                <div class="absolute inset-0 bg-zinc-800 flex items-center justify-center">
-                                    <span class="text-zinc-500 font-bold text-xl">Sem Imagem</span>
-                                </div>
-                            {% endif %}
-                            
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-
-                            <div class="absolute bottom-0 left-0 w-full p-8 z-10">
-                                <span class="inline-block px-3 py-1 rounded-lg bg-[#FF0080] text-white text-xs font-bold mb-3 shadow-md">
-                                    {{ evento.data|date:"d/m/Y" }}
-                                </span>
-                                <h3 class="text-3xl font-extrabold text-white mb-2 leading-tight drop-shadow-md">
-                                    {{ evento.nome }}
-                                </h3>
-                                <p class="text-zinc-300 text-sm line-clamp-2 mb-4">
-                                    {{ evento.descricao }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination !bottom-0"></div>
-            </div>
-        {% else %}
-            <div class="w-full py-16 bg-white border-2 border-dashed border-zinc-200 rounded-3xl flex flex-col items-center justify-center text-center px-4">
-                <div class="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center mb-4 text-zinc-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-zinc-800">Nenhum Destaque Definido</h3>
-                <p class="text-zinc-500 mt-2 max-w-md">Vá ao painel administrativo e marque a opção <strong>"Destaque"</strong> nos eventos que você quer exibir aqui.</p>
-            </div>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'meus_favoritos' %}" class="flex items-center gap-2 text-[#FF0080] font-bold hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+            </svg>
+            Ver Meus Favoritos
+        </a>
         {% endif %}
     </div>
 
-    <div class="container mx-auto px-4 mb-16">
-        <div class="flex items-center gap-3 mb-6 pl-2">
-            <div class="h-3 w-3 rounded-full bg-zinc-400"></div>
-            <h3 class="text-2xl font-bold text-zinc-700">Todos os Eventos</h3>
+    {% if destaques %}
+    <div class="container mx-auto px-4 mb-16 relative">
+        <h3 class="text-2xl font-bold text-zinc-800 mb-6 flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-gradient-to-tr from-[#FF0080] to-[#FFEA00]"></span>
+            Destaques
+        </h3>
+
+        <div class="swiper swiper-destaques w-full rounded-[2rem] shadow-2xl overflow-hidden">
+            <div class="swiper-wrapper">
+                {% for evento in destaques %}
+                <div class="swiper-slide relative bg-zinc-900 w-full">
+                    
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'toggle_favorito_evento' evento.id %}" class="absolute top-6 right-6 z-30 p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white transition-all group/heart shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="{% if user in evento.favoritos.all %}currentColor{% else %}none{% endif %}" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+                             class="w-8 h-8 {% if user in evento.favoritos.all %}text-red-500{% else %}text-white group-hover/heart:text-red-500{% endif %} transition-colors">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    <a href="{{ evento.site_url|default:'#' }}" target="_blank" class="block w-full h-full group">
+                        {% if evento.imagem %}
+                            <img src="{{ evento.imagem.url }}" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-[2000ms]">
+                        {% else %}
+                            <div class="absolute inset-0 flex items-center justify-center bg-zinc-800 text-zinc-500 font-bold text-3xl">Sem Imagem</div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                        
+                        <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 z-10">
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <span class="px-4 py-1.5 rounded-full bg-[#FF0080] text-white text-sm font-bold shadow-lg">
+                                    📅 {{ evento.data|date:"d \d\e F" }}
+                                </span>
+                            </div>
+                            <h3 class="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">{{ evento.nome }}</h3>
+                            <p class="text-zinc-200 text-lg line-clamp-2 max-w-2xl mb-6">{{ evento.descricao }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination !bottom-6"></div>
         </div>
+    </div>
+    {% endif %}
+
+    <div class="container mx-auto px-4 mb-16">
+        <h3 class="text-2xl font-bold text-zinc-700 mb-6 pl-2 border-l-4 border-zinc-400">Todos os Eventos</h3>
 
         {% if outros_eventos %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {% for evento in outros_eventos %}
-            <a href="{{ evento.site_url|default:'#' }}" target="_blank" 
-               class="group bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+            <div class="group bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden hover:shadow-lg transition-all relative">
                 
-                <div class="relative h-48 w-full overflow-hidden bg-zinc-100">
-                    {% if evento.imagem %}
-                        <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    {% else %}
-                        <div class="flex items-center justify-center h-full text-zinc-300">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                    {% endif %}
-                    
-                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-zinc-800 shadow-sm border border-white/50">
-                        {{ evento.data|date:"d/m" }}
-                    </div>
-                    
-                    {% if evento.categoria %}
-                    <div class="absolute top-3 right-3 bg-zinc-900/80 backdrop-blur px-2 py-1 rounded-lg text-[10px] font-bold text-white shadow-sm border border-white/10 uppercase tracking-wide">
-                        {{ evento.categoria.nome }}
-                    </div>
-                    {% endif %}
-                </div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'toggle_favorito_evento' evento.id %}" class="absolute top-3 right-3 z-20 p-2 rounded-full bg-white/80 backdrop-blur hover:bg-white shadow-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="{% if user in evento.favoritos.all %}currentColor{% else %}none{% endif %}" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+                         class="w-5 h-5 {% if user in evento.favoritos.all %}text-red-500{% else %}text-zinc-400 hover:text-red-500{% endif %}">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                </a>
+                {% endif %}
 
-                <div class="p-5 flex flex-col flex-grow">
-                    <h4 class="text-lg font-bold text-zinc-800 mb-2 leading-snug group-hover:text-[#FF0080] transition-colors">
-                        {{ evento.nome }}
-                    </h4>
-                    <p class="text-sm text-zinc-500 line-clamp-3 mb-4 flex-grow">
-                        {{ evento.descricao }}
-                    </p>
-                    
-                    <div class="mt-auto pt-4 border-t border-zinc-100 flex items-center justify-between">
-                        <span class="text-xs font-medium text-zinc-400">Saiba mais &rarr;</span>
+                <a href="{{ evento.site_url|default:'#' }}" target="_blank" class="block">
+                    <div class="relative h-48 bg-zinc-100 overflow-hidden">
+                        {% if evento.imagem %}
+                            <img src="{{ evento.imagem.url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {% endif %}
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold text-zinc-800 shadow-sm">
+                            {{ evento.data|date:"d/m" }}
+                        </div>
                     </div>
-                </div>
-            </a>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-zinc-800 mb-2 group-hover:text-[#FF0080] transition-colors">{{ evento.nome }}</h4>
+                        <p class="text-sm text-zinc-500 line-clamp-3">{{ evento.descricao }}</p>
+                    </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
         {% else %}
-            <div class="w-full py-12 text-center">
-                <p class="text-zinc-500">Nenhum outro evento encontrado no momento.</p>
-            </div>
+            <p class="text-zinc-500 pl-2">Nenhum outro evento encontrado.</p>
         {% endif %}
     </div>
 
@@ -125,38 +113,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         if (document.querySelector('.swiper-destaques')) {
-            const swiper = new Swiper('.swiper-destaques', {
+            new Swiper('.swiper-destaques', {
+                slidesPerView: 1,
                 loop: true,
-                grabCursor: true,
-                spaceBetween: 24,
-                slidesPerView: 1.1, 
-                centeredSlides: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                    dynamicBullets: true,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1.5,
-                        centeredSlides: false,
-                        spaceBetween: 24,
-                    },
-                    1024: {
-                        slidesPerView: 2.5,
-                        centeredSlides: false,
-                        spaceBetween: 32,
-                    },
-                }
+                effect: 'slide',
+                speed: 800,
+                autoplay: { delay: 4000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true, dynamicBullets: true },
             });
         }
     });
 </script>
-
 <style>
-    .swiper-slide {
-        height: auto !important;
-        display: flex;
-    }
+    .swiper-destaques .swiper-slide { height: 500px !important; display: flex; }
+    @media (max-width: 768px) { .swiper-destaques .swiper-slide { height: 400px !important; } }
+    .swiper-pagination-bullet-active { background-color: #FF0080 !important; width: 24px !important; border-radius: 4px !important; }
 </style>
 {% endblock %}
