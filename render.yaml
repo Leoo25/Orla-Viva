@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: orla-viva
+    env: python
+    buildCommand: |
+      curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+      apt-get install -y nodejs
+      npm install --global postcss-cli
+      python manage.py tailwind install
+      python manage.py tailwind build
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn Orla_Viva.wsgi:application --bind 0.0.0.0:$PORT
