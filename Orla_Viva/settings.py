@@ -55,8 +55,6 @@ INSTALLED_APPS = [
     'core',
     'eventos',
     'recomendacoes',
-    'tailwind',
-    'theme',
     'contato'
 ]
 
@@ -84,8 +82,8 @@ JAZZMIN_SETTINGS = {
     }
 }
 
-TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"D:\Gordo\Node\npm.cmd"
+TAILWIND_APP_NAME = 'None'
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 
 MIDDLEWARE = [
