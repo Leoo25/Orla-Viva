@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'core',
     'eventos',
     'recomendacoes',
+    'theme',
     'contato'
 ]
 
